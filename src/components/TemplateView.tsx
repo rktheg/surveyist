@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Upload, Zap } from 'lucide-react';
+import { Upload, FileText } from 'lucide-react';
 
 interface TemplateViewProps {
   onTemplateProcess: (template: string) => void;
@@ -8,56 +8,36 @@ interface TemplateViewProps {
 export const TemplateView: React.FC<TemplateViewProps> = ({ onTemplateProcess }) => {
   const [template, setTemplate] = useState('');
 
-  const handleProcess = () => {
+  const handleSubmit = () => {
     if (template.trim()) {
       onTemplateProcess(template);
     }
   };
 
   return (
-    <div className="p-6 space-y-6">
-      <div className="space-y-2">
-        <h2 className="text-lg font-semibold text-gray-900">
-          Survey Template
-        </h2>
-        <p className="text-sm text-gray-600">
-          Upload or paste your survey template
+    <div className="p-6">
+      <div className="mb-6">
+        <h2 className="text-2xl font-bold text-gray-800 mb-2">Survey Template</h2>
+        <p className="text-gray-600">
+          Paste your survey questions below (one per line)
         </p>
       </div>
 
-      <div className="space-y-4">
-        <div className="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center bg-gray-50 hover:bg-gray-100 transition-colors cursor-pointer">
-          <Upload className="mx-auto mb-3 text-gray-400" size={40} />
-          <p className="text-gray-700 font-medium">
-            Drag & drop file
-          </p>
-          <p className="text-xs text-gray-500 mt-1">
-            or click to browse
-          </p>
-        </div>
+      <textarea
+        value={template}
+        onChange={(e) => setTemplate(e.target.value)}
+        placeholder="Example:&#10;Full Name&#10;Age (18-25, 26-35, 36-45, 46+)&#10;Occupation&#10;Living Situation (Urban, Suburban, Rural)"
+        className="w-full h-64 p-4 bg-gray-50 border border-gray-200 rounded-xl text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none mb-4"
+      />
 
-        <div className="relative">
-          <div className="text-center text-gray-400 text-sm mb-3">
-            or paste template
-          </div>
-        </div>
-
-        <textarea
-          value={template}
-          onChange={(e) => setTemplate(e.target.value)}
-          placeholder="Paste your survey template here..."
-          className="w-full h-48 p-4 bg-white border border-gray-300 rounded-lg text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
-        />
-
-        <button
-          onClick={handleProcess}
-          disabled={!template.trim()}
-          className="w-full p-4 bg-blue-500 text-white font-medium rounded-lg disabled:opacity-50 disabled:cursor-not-allowed hover:bg-blue-600 transition-colors flex items-center justify-center gap-2"
-        >
-          <Zap size={20} />
-          <span>Process Template</span>
-        </button>
-      </div>
+      <button
+        onClick={handleSubmit}
+        disabled={!template.trim()}
+        className="w-full p-4 bg-gradient-to-r from-blue-500 to-purple-600 text-white font-semibold rounded-xl disabled:opacity-50 disabled:cursor-not-allowed hover:shadow-lg transition-all active:scale-95 flex items-center justify-center gap-2"
+      >
+        <Upload size={20} />
+        <span>Process Template</span>
+      </button>
     </div>
   );
 };
